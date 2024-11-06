@@ -4,11 +4,11 @@ require('dotenv').config();
 
 // HubSpot API URL and Token
 const HUBSPOT_API_URL = 'https://api.hubapi.com/deals/v1/deal/paged';
-const HUBSPOT_ACCESS_TOKEN = process.env.HUBSPOT_ACCESS_accessToken;
+const HUBSPOT_ACCESS_TOKEN = process.env.HUBSPOT_ACCESS_TOKEN;
 const OUTPUT_FILE = 'high_priority_deals.json';  // JSON file to log deals
 
 // Function to retrieve high-priority deals from HubSpot
-async function getHighPriorityDeals() {
+async function getHighPriorityDeals(retryCount = 3) {
     try {
         const response = await axios.get(HUBSPOT_API_URL, {
             headers: {
@@ -20,12 +20,16 @@ async function getHighPriorityDeals() {
         });
 
         // Filter high-priority deals 
-        const highPriorityDeals = response.data.deals.filter(deal => deal.priority === 'high');
+        const highPriorityDeals = response.data.deals.filter(deal => deal.properties.dealPriority.value === 'high');
 
         // Log high-priority deals to a JSON file
         logDealsToJSON(highPriorityDeals);
 
     } catch (error) {
+        if (retryCount > 0) {
+            console.error(`Error fetching deals. Retrying... Attempts left: ${retryCount}`);
+            setTimeout(() => getHighPriorityDeals(retryCount - 1), 2000);  // Retry after 2 seconds
+        }
         // Handle the error
         if (error.response) {
             console.error(`API error: ${error.response.status} - ${error.response.statusText}`);
@@ -39,7 +43,7 @@ async function getHighPriorityDeals() {
 
 // Function to log deals into a local JSON file
 function logDealsToJSON(deals) {
-    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(deals, null, 2), 'utf8');
+    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(deals), 'utf8');
     console.log(`Logged ${deals.length} high-priority deals to ${OUTPUT_FILE}`);
 }
 
