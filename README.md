@@ -15,7 +15,7 @@ This repository contains solutions for the following tasks:
 
 In **Section 1**, I implemented a Node.js integration with the HubSpot API to fetch and log "high-priority" deals.
 
-You can find the code for Section 1 in the [`sectionOne` folder](./sectionOne) in this repository.
+You can find the code for Section 1 in the [`sectionOne`](./sectionOne) in this repository.
 
 ---
 
@@ -23,7 +23,7 @@ You can find the code for Section 1 in the [`sectionOne` folder](./sectionOne) i
 
 In **Section 2**, I addressed common issues in the provided code snippet.
 
-You can find the updated code in the `sectionTwo` folder.
+You can find the updated code in the [`sectionTwo`](./sectionTwo) folder.
 
 ---
 
