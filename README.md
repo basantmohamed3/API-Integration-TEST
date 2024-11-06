@@ -24,7 +24,7 @@ You can find the updated code in the `sectionTwo` folder.
 
 ### Section 3: Quick SQL Query
 
-**Task**: Write a SQL query to retrieve all entries from a table named `integrations_log` where `status = 'error'` and `timestamp` is within the last 7 days.
+**Task**: Write an SQL query to retrieve all entries from a table named `integrations_log` where `status = 'error'` and `timestamp` is within the last 7 days.
 
 **Solution**:
 ```sql
@@ -32,15 +32,4 @@ SELECT *
 FROM integrations_log
 WHERE status = 'error'
 AND timestamp >= NOW() - INTERVAL 7 DAY;
-
-
--- 
-
-### Section 4: Knowledge Check
-
-**Task**:  Explain in 1-2 sentences how you would handle rate limits for an API call that needs to process high volumes of data.
-
-**Solution**:
-
-To handle API rate limits, I would implement a retry mechanism with backoff, where the system waits longer between retries after hitting a rate limit (e.g., HTTP 429). Additionally, I would respect the Retry-After header, if available, to avoid making repeated requests before the limit resets.
 
